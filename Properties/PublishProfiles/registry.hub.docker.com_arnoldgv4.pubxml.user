@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAel8JmgE+3kuwbvHa9fJYmQAAAAACAAAAAAAQZgAAAAEAACAAAABBHapUKhzG+SjNC5PCKyea9+vixXzuB4tF2Pl6KEJp9AAAAAAOgAAAAAIAACAAAAAHrRA6Uipzol6WCNoUuKxcr6sw4eHQ09PbWieBBl1CxSAAAADe8PG07fVpKp4MJRZOlyTFIb6OsP8w0QywvABuzji770AAAACyAdp+3zahGua7W/QFUd5zst+5Ek6Wz3VQdGUeiCoeA9H6HM8wY0GCMuTtJy8VH0GFY26qlpkSPZGo2J5ljS3n</EncryptedPassword>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <History>False|2024-03-17T06:42:27.9939838Z;False|2024-03-17T00:42:12.4735300-06:00;</History>
+    <LastFailureDetails>2024-03-17T06:42:27.9939838Z|checkContainerPrereq</LastFailureDetails>
+  </PropertyGroup>
+</Project>
