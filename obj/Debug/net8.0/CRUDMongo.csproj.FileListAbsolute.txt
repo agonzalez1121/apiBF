@@ -44,3 +44,4 @@ C:\Users\arnold\mongodbSharp\CRUDMongo\obj\Debug\net8.0\refint\CRUDMongo.dll
 C:\Users\arnold\mongodbSharp\CRUDMongo\obj\Debug\net8.0\CRUDMongo.pdb
 C:\Users\arnold\mongodbSharp\CRUDMongo\obj\Debug\net8.0\CRUDMongo.genruntimeconfig.cache
 C:\Users\arnold\mongodbSharp\CRUDMongo\obj\Debug\net8.0\ref\CRUDMongo.dll
+C:\Users\arnold\mongodbSharp\CRUDMongo\obj\Debug\net8.0\CRUDMongo.sourcelink.json

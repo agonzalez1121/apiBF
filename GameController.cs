@@ -25,7 +25,7 @@ namespace MyApp.Namespace
 
             try
             {
-                   var info = await _context.GetCollection<Game>("game").Find(p=>p.Id == id).FirstOrDefaultAsync();
+                   var info = await _context.GetCollection<Game>("game").Find(p=>p.Email == id).FirstOrDefaultAsync();
 
                      if (info == null)
                          {
@@ -51,7 +51,7 @@ namespace MyApp.Namespace
 
                 try
                 {
-                    var result = await _context.GetCollection<Game>("Products").ReplaceOneAsync(p => p.Id == id, data);
+                    var result = await _context.GetCollection<Game>("Products").ReplaceOneAsync(p => p.Email == id, data);
 
                     if (!result.IsAcknowledged && result.ModifiedCount == 0)
                     {
@@ -92,7 +92,7 @@ namespace MyApp.Namespace
         [HttpDelete("{id}")]
             public async Task<IActionResult> Delete(string id)
             {
-                var result = await _context.GetCollection<Game>("game").DeleteOneAsync(p => p.Id == id);
+                var result = await _context.GetCollection<Game>("game").DeleteOneAsync(p => p.Email == id);
 
                 if (!result.IsAcknowledged && result.DeletedCount == 0)
                 {
