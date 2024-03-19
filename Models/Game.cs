@@ -49,7 +49,8 @@ public class Game
 
     public class Item
 {
-    [BsonElement("itemId")]
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string? ItemId { get; set; }
 
     [BsonElement("itemName")]
@@ -63,7 +64,8 @@ public class Game
 
 public class Weapon
 {
-    [BsonElement("weaponId")]
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string? WeaponId { get; set; }
 
     [BsonElement("weaponName")]
@@ -77,7 +79,8 @@ public class Weapon
 
 public class Armor
 {
-    [BsonElement("armorId")]
+   [BsonId]
+   [BsonRepresentation(BsonType.ObjectId)]
     public string? ArmorId { get; set; }
 
     [BsonElement("armorName")]

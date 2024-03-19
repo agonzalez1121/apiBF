@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace MyApp.Namespace
@@ -20,12 +21,12 @@ namespace MyApp.Namespace
             return await _context.GetCollection<Game>("game").Find(_=>true).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id){
+        [HttpGet("{Email}")]
+        public async Task<IActionResult> Get(string Email){
 
             try
             {
-                   var info = await _context.GetCollection<Game>("game").Find(p=>p.Email == id).FirstOrDefaultAsync();
+                   var info = await _context.GetCollection<Game>("game").Find(p=>p.Email == Email).FirstOrDefaultAsync();
 
                      if (info == null)
                          {
@@ -40,31 +41,73 @@ namespace MyApp.Namespace
          
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody] Game data)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] Game data)
+        {
+            if (!ValidateData(data))
+                return BadRequest("Invalid data");
+
+            if (string.IsNullOrEmpty(data.Email))
+                return BadRequest("Email is required");
+
+            try
             {
-                if (!ValidateData(data))
-                    return BadRequest("Invalid  data");
+                var filter = Builders<Game>.Filter.Eq(g => g.Email, data.Email);
+                var updateDefinition = Builders<Game>.Update;
+                var updateFields = new List<UpdateDefinition<Game>>();
 
-                if (id != data.Id)
-                    return BadRequest();
+                // Add fields to update
+                if (!string.IsNullOrEmpty(data.Nombre))
+                    updateFields.Add(updateDefinition.Set(g => g.Nombre, data.Nombre));
 
-                try
+                if (data.CreatedAt.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.CreatedAt, data.CreatedAt));
+
+                if (data.Level.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.Level, data.Level));
+
+                if (data.Experience.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.Experience, data.Experience));
+
+                if (data.Strength.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.Strength, data.Strength));
+
+                if (!string.IsNullOrEmpty(data.CurrentDungeon))
+                    updateFields.Add(updateDefinition.Set(g => g.CurrentDungeon, data.CurrentDungeon));
+
+                if (data.CurrentFloor.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.CurrentFloor, data.CurrentFloor));
+
+                if (data.EnemiesDefeated.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.EnemiesDefeated, data.EnemiesDefeated));
+
+                if (data.BossesDefeated.HasValue)
+                    updateFields.Add(updateDefinition.Set(g => g.BossesDefeated, data.BossesDefeated));
+
+                if (data.Inventory != null)
+                    updateFields.Add(updateDefinition.Set(g => g.Inventory, data.Inventory));
+
+                if (data.EquippedWeapon != null)
+                    updateFields.Add(updateDefinition.Set(g => g.EquippedWeapon, data.EquippedWeapon));
+
+                if (data.EquippedArmor != null)
+                    updateFields.Add(updateDefinition.Set(g => g.EquippedArmor, data.EquippedArmor));
+
+                var update = Builders<Game>.Update.Combine(updateFields);
+                var result = await _context.GetCollection<Game>("game").UpdateOneAsync(filter, update);
+
+                if (!result.IsAcknowledged && result.ModifiedCount == 0)
                 {
-                    var result = await _context.GetCollection<Game>("Products").ReplaceOneAsync(p => p.Email == id, data);
-
-                    if (!result.IsAcknowledged && result.ModifiedCount == 0)
-                    {
-                        return NotFound();
-                    }
-
-                    return NoContent();
+                    return NotFound();
                 }
-                catch (OperationFailedException ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+
+                return Ok();
             }
+            catch (OperationFailedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
         [HttpPost]
@@ -89,17 +132,17 @@ namespace MyApp.Namespace
             
         }
 
-        [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{Email}")]
+            public async Task<IActionResult> Delete(string Email)
             {
-                var result = await _context.GetCollection<Game>("game").DeleteOneAsync(p => p.Email == id);
+                var result = await _context.GetCollection<Game>("game").DeleteOneAsync(p => p.Email == Email);
 
                 if (!result.IsAcknowledged && result.DeletedCount == 0)
                 {
                     return NotFound();
                 }
 
-                return NoContent();
+                return Ok();
             }
     
 
